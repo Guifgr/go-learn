@@ -4,15 +4,10 @@ import (
 	"fmt"
 )
 
-const (
-	_ = 1994 + iota
-	b
-	c
-	d
-	e
-)
-
 func main() {
-
-	fmt.Println(b, c, d, e)
+	x := `Isso
+	é		Uma
+		Coisa
+	Muito		Doida`
+	fmt.Println(x)
 }

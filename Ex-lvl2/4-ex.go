@@ -5,9 +5,8 @@ import (
 )
 
 func main() {
-	x := `Isso
-	é		Uma
-		Coisa
-	Muito		Doida`
-	fmt.Println(x)
+	x := 10
+	fmt.Printf("%d %#X %b\n", x, x, x)
+	y := x >> 1
+	fmt.Printf("%d %#X %b\n", y, y, y)
 }
