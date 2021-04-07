@@ -53,7 +53,7 @@ func MergeSort(slice []int) []int {
 }
 
 func main() {
-	rand.Seed(time.Now().UnixNano()) //improve the randomicity of the random number generator
+	rand.Seed(time.Now().UnixNano())
 	theArray := sliceOfTen()
 	fmt.Println(theArray)
 	fmt.Println(MergeSort(theArray))
