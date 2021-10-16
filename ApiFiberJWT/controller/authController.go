@@ -36,7 +36,7 @@ func ParseData(c *fiber.Ctx) map[string]string {
 	return data
 }
 
-func Login(c *fiber.Ctx) error {
+func LoginCookie(c *fiber.Ctx) error {
 	data := ParseData(c)
 
 	var user models.User
@@ -81,6 +81,47 @@ func Login(c *fiber.Ctx) error {
 	c.Cookie(&cookie)
 	return c.JSON(fiber.Map{
 		"sucess": "sucess",
+	})
+}
+
+func Login(c *fiber.Ctx) error {
+	data := ParseData(c)
+
+	var user models.User
+
+	database.DB.Where("email = ?", data["email"]).First(&user)
+
+	if user.Id == 0 {
+		c.Status(fiber.StatusNotFound)
+		return c.JSON(fiber.Map{
+			"message": "user not found",
+		})
+	}
+
+	err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["password"]))
+	if err != nil {
+		c.Status(fiber.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
+		Issuer:    strconv.Itoa(int(user.Id)),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	})
+
+	token, err := claims.SignedString([]byte(SecretKey))
+	if err != nil {
+		c.Status(fiber.StatusInternalServerError)
+		return c.JSON(fiber.Map{
+			"message": "could not login",
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"sucess": "sucess",
+		"token": token,
 	})
 }
 
