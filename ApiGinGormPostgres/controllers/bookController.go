@@ -25,7 +25,7 @@ func ShowAllBooks(c *gin.Context) {
 
 func ShowBook(c *gin.Context) {
 	id := c.Param("id")
-	newid, err := strconv.Atoi(id)
+	newId, err := strconv.Atoi(id)
 
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -36,7 +36,7 @@ func ShowBook(c *gin.Context) {
 
 	db := database.GetDatabase()
 	var p models.Book
-	err = db.First(&p, newid).Error
+	err = db.First(&p, newId).Error
 
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -69,12 +69,12 @@ func CreateBook(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, book)
+	c.JSON(201, book)
 }
 
 func DeleteBook(c *gin.Context) {
 	id := c.Param("id")
-	newid, err := strconv.Atoi(id)
+	newId, err := strconv.Atoi(id)
 
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -85,7 +85,7 @@ func DeleteBook(c *gin.Context) {
 
 	db := database.GetDatabase()
 
-	err = db.Delete(&models.Book{}, newid).Error
+	err = db.Delete(&models.Book{}, newId).Error
 
 	if err != nil {
 		c.JSON(400, gin.H{

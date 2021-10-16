@@ -8,6 +8,6 @@ import (
 func main() {
 	database.StartDB()
 
-	server := server.NewServer()
-	server.Run()
+	newServer := server.NewServer()
+	newServer.Run()
 }
