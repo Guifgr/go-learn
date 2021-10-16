@@ -13,7 +13,7 @@ import (
 const SecretKey = "secret"
 
 func Register(c *fiber.Ctx) error {
-	data := parseData(c)
+	data := ParseData(c)
 
 	password, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
 
@@ -26,7 +26,7 @@ func Register(c *fiber.Ctx) error {
 	return c.JSON(user)
 }
 
-func parseData(c *fiber.Ctx) map[string]string {
+func ParseData(c *fiber.Ctx) map[string]string {
 	var data map[string]string
 
 	err := c.BodyParser(&data)
@@ -37,7 +37,7 @@ func parseData(c *fiber.Ctx) map[string]string {
 }
 
 func Login(c *fiber.Ctx) error {
-	data := parseData(c)
+	data := ParseData(c)
 
 	var user models.User
 
@@ -104,11 +104,11 @@ func User(c *fiber.Ctx) error {
 	return c.JSON(user)
 }
 
-func Logout(c *fiber.Ctx) error{
+func Logout(c *fiber.Ctx) error {
 	cookie := fiber.Cookie{
-		Name: "jwt",
-		Value: "",
-		Expires: time.Now().Add(-time.Hour),
+		Name:     "jwt",
+		Value:    "",
+		Expires:  time.Now().Add(-time.Hour),
 		HTTPOnly: true,
 	}
 

@@ -16,7 +16,7 @@ func Connect(){
 
 	DB = connection
 
-	err = connection.AutoMigrate(&models.User{})
+	err = connection.AutoMigrate(&models.User{}, &models.PasswordReset{})
 	if err != nil {
 		panic("Could not automigrate")
 	}
