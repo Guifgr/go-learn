@@ -2,15 +2,17 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-//main function
+var count = 0
+
 func main() {
-	println("Api in http:localhost:8080/contato")
+	println("Api in http://localhost:8080/contato")
 
 	people = append(people, Person{
 		ID:        "1",
@@ -39,7 +41,6 @@ func main() {
 	router.HandleFunc("/contato/{id}", DeletePerson).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
-
 }
 
 type Person struct {
@@ -57,6 +58,8 @@ type Address struct {
 var people []Person
 
 func GetPeople(w http.ResponseWriter, r *http.Request) {
+	count++
+	fmt.Println(count, " \n")
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(people)
 }
